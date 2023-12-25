@@ -1,2 +1,5 @@
+# ignore folder
+data
+
 .venv
-data/AFLW2000
+*.pyc

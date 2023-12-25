@@ -1,0 +1,68 @@
+\documentclass[12pt]{article}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm,
+ }
+\usepackage{indentfirst}
+\setlength{\parskip}{10pt}
+
+\title{\textbf{Bridge the Domain-Gap: Facial Landmarks with Fake-it Dataset}}
+\author{Chaoyi Hu, 301559775}
+\date{Simon Fraser University, CMPT 732, October 2022}
+
+\begin{document}
+\maketitle
+
+%%%%%%
+\section{Introduction}
+
+\subsection{The Domain Gap}
+Access to high-quality datasets is crucial to success in deep learning projects, yet data availibility has always been a problem in human-related computer vision projects due to ethic restraints such as privacy protection. Synthetic human facial image using computer graphics provides an ideal data source, as it offers theoretically infinite amount of data with extra benefits such as elimination of ethic concerns, full control over the diversity of the dataset, as well as perfect labels\cite{Wood.9302021}. However, crossing the gap between synthetic and real world data remains a challenging task.
+
+\subsection{Demand for Efficient Models}
+Large pre-trained convolutional neural networks are impractical for uses on consumer devices, where memory and computational power are usually limited. For example, VGG-16, one of the earlier benchmark models, has a total of 138 million parameters and occupies over 552 MB of space\cite{Simonyan.952014}. Running such a huge network on a typical smartphone with 4 to 8 Gigabytes of RAM will be extremely inefficient. To perform evaluation of deep neural network at a rate of at least 30 times per second on consumer devices, the network needs to be highly efficient and compact\cite{Ma.7302018}. Series of light-weight models have been proposed to suit the increasing demand. Featuring compactness and high efficiency, these models are designed to be more suitable for real-time uses on consumer devices, aiming at smaller model size that is memory-efficient, and faster inferencing that is computationally efficient.
+
+\subsection{Our Project}
+In this project, we divide our tasks in a progressive manner. For the basic task, as described in section 2.1, we aim to design a facial landmark detection model that closes the domain gap, i.e. a model that trains on synthetic human facial images and generalizes to real human facial images. Comparative tests of model accuracy and inference speed will be conducted to evaluate the performances of different models. For the bonus task, as described in section 2.2, we will experiment with various network architectures and model compression techniques in order to construct an improved model with higher efficiency. Followingly, as described in section 2.3, we seek to develop a prototype based on our improved model. This prototype should perform inferences in real time on consumer devices.
+
+
+%%%%%%
+\section{Project Design}
+
+The project requirements recommended the following datasets. For the synthetic training data, we will use the CelebA-HQ dataset consisting of 30,000 high-resolution synthetic human facial images\cite{Huang.7172018}. For the real-world test data, we will use real human facial images provided by Flickr-Faces-HQ Dataset (FFHQ)\cite{Karras.12122018}. Before the main experiment, we will inspect the dataset and conduct some preliminary experiments to determine the minimum viable amount of data we need to use in our project.
+
+\subsection{Model Design: Closing the Domain Gap}
+
+This subsection corresponds to our basic task. We propose to build the network based on the Pytorch framework. As for tools for necessary image manipulations, our primary option is OpenCV. To measure the accuracy of the landmark locations, we propose to use widely adopted metrics including Normalized Mean Error (NME) or Falure Rate (FR) for the ease of comparison. Additionally, we will calculate the number of parameters as a metrics for model size, and measure the inference time (ms) as a metric for inference speed, in order to evaluate the potential of models for real-time inference on consumer devices.
+
+More research needed to be done before we determine the design of our network architecture. For now, our starting point would be established facial landmark detection backbones such as ResNet\cite{He.12112015} or ShuffleNetV2\cite{Ma.7302018}. Deep learning libraries such as Dlib can hopefully provide a baseline for landmarks localization\cite{Khabarlak.2022}. On top of the proposed model and baseline models, we will select 2-3 benchmark models for performance comparison.
+
+\subsection{Model Optimization: Lighter Model, Higher Efficiency}
+
+This subsection correspondes to our bonus task. We seek to improve our model by reducing the inference time and computational power required, making it more suitable for real-time inference on consumer devices.
+
+Improvement in model performances usually comes as a result of optimizations in two aspects: network architecture design, and model compression techniques. SqueezeNet\cite{Iandola.2242016} features parameter compression in convolutional neural networks using Fire modules, and has been demonstrated to be able to run on low-power processing platforms such as smartphones and custom processors. Other networks such as SqueezeNext\cite{Gholami.}, ShuffleNet\cite{Ma.7302018}, MobileNet\cite{Howard.4172017} also offer great references for light-weight network design. Novel approaches such as Wing Loss\cite{Feng.11182017}, Practical Facial Landmark Detector (PFLD)\cite{Guo.2282019} can potentially be applied to improve our network as well. Model compression, such as quantization and pruning of model parameters, can be applied to a deep neural network after it has been trained to make the trained model more compact.
+
+We will experiment with different network architectures attained by adjusting network components or applying novel approches on top of the proposed network. We will observe the changes in accuracy and efficiency and determine the best improved model.
+
+\subsection{Development of a Real-time Prototype}
+
+Based on the improved model, we plan to build a desktop application for real-time facial landmark detection that runs on a personal laptop. The prototype should be able to detect and display facial landmarks on a 30 fps video file or camera input. We propose to build the application in Python, with tkinter library for the interface.
+
+%%%%%%
+\section{Timeline}
+
+\begin{itemize}
+\item From Oct 1 to Oct 15, we will explore the datasets, review existing methods and network architectures for facial landmarks detection, and select as well as reproduce representative light-weight models suitable for inference on consumer hardware for future comparative experiments.
+\item From Oct 16 to Oct 31, we plan to finish tasks described in 2.1.
+\item From Nov 1 to Nov 15, based on the results we get in the previous stage, we will seek to improve the efficiency of the proposed model. Employing the improved model, we will develop a prototype that runs in real time. Ideally, we will build a interface for demo purposes.
+\item By Nov 30, we will wrap up the project, summarizing our work in the form of report, presentation, and source files.
+\end{itemize}
+
+%% References
+\bibliographystyle{IEEEtran} 
+\bibliography{bibliography}
+\end{document}
